@@ -1,5 +1,5 @@
-const loadPhones = async() => {
-    const url = `https://openapi.programming-hero.com/api/phones?search=iphone`
+const loadPhones = async(searchText) => {
+    const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     const res = await fetch(url);
     const data = await res.json();
     displayPhones(data.data);
@@ -23,4 +23,13 @@ const displayPhones = phones => {
         phonesContainer.appendChild(phonesDiv);
     })
 }
+
+
+document.getElementById('btn-search').addEventListener('click', function () {
+    
+    const searchField = document.getElementById('search-field');
+    const searchText = searchField.value;
+    loadPhones(searchText);
+})
+
 loadPhones();
