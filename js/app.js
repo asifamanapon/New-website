@@ -41,7 +41,8 @@ const displayPhones = (phones, dataLimit) => {
          content. This content is a little bit longer.</p>
          </div>
          </div>
-         <button onclick="loadPhoneDetails('${phone.slug}')" herf="#" class="btn btn-primary">Show Details</button>
+         <button onclick="loadPhoneDetails('${phone.slug}')" herf="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetailModal">Show Details</button>
+         
         `;
         phonesContainer.appendChild(phonesDiv);
     })
@@ -90,6 +91,24 @@ const loadPhoneDetails = async id => {
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data.data);
+    displayPhoneDetails(data.data);
 }
-//loadPhones();
+
+const displayPhoneDetails = phone => {
+    console.log(phone);
+    const modalTitle = document.getElementById('exampleModalLabel');
+    modalTitle.innerText = phone.name;
+    const PhoneDetails = document.getElementById('phone-details');
+    PhoneDetails.innerHTML = `
+    <p>Release Date: ${phone.releaseDate ? phone.releaseDate : 'No release date found, please try other'}</p>
+    <p>Chipset: ${phone.mainFeatures.chipSet}</p>
+    <p>Bluetooth: ${phone.others.Bluetooth}</p>
+    <p>Display: ${phone.mainFeatures.displaySize}</p>
+    <p>Memory: ${phone.mainFeatures.memory}</p>
+    <p>Sensors: ${phone.mainFeatures.sensors}</p>
+    <p>Storage: ${phone.mainFeatures.storage}</p>
+    `
+}
+
+
+loadPhones('apple');
