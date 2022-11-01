@@ -41,6 +41,7 @@ const displayPhones = (phones, dataLimit) => {
          content. This content is a little bit longer.</p>
          </div>
          </div>
+         <button onclick="loadPhoneDetails('${phone.slug}')" herf="#" class="btn btn-primary">Show Details</button>
         `;
         phonesContainer.appendChild(phonesDiv);
     })
@@ -61,6 +62,15 @@ document.getElementById('btn-search').addEventListener('click', function () {
     processSearch(10);
 })
 
+//search input field enter key handler
+document.getElementById('search-field').addEventListener('keypress', function (e) {
+    console.log(e.key);
+    if (e.key === 'Enter') {
+        //code for enter
+        processSearch(10);
+    }
+})
+
 const toggleSpiner = isLoading => {
     const loaderSection = document.getElementById('loader');
     if (isLoading) {
@@ -74,4 +84,12 @@ const toggleSpiner = isLoading => {
 document.getElementById('btn-show-all').addEventListener('click', function () {
     processSearch();
 })
+
+
+const loadPhoneDetails = async id => {
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data.data);
+}
 //loadPhones();
